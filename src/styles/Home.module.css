@@ -22,7 +22,7 @@
   flex-direction: column;
   background-color: #04080F;
   padding: 2rem;
-  height: 90vh;
+  height: 100vh;
   border-radius: 5px;
   backdrop-filter: blur(5px);
 }
@@ -50,6 +50,19 @@
 .card:hover {
   box-shadow: 0 0 8px 0 #ff0019ad;
   background-color: #ff0019e8;;
+}
+
+.glassCard {
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(32, 32, 32, 0.726);
+  backdrop-filter: blur(9.4px);
+  -webkit-backdrop-filter: blur(9.4px);
+  border: 1px solid rgba(255, 255, 255, 0.068);
+  width: 200px;
+  height: 180px;
+  padding: 12px;
 }
 
 .title {

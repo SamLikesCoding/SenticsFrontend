@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import styles from '@/styles/Home.module.css'
 import getData from './api/databaseFetch';
-import { stdout } from 'process';
 
 
 export default function Home() {
@@ -52,8 +51,8 @@ export default function Home() {
                 data.map((part) => (
                   <div 
                    key={part['PID']} className={styles.card}
-                   onClick={() => {
-
+                   onClick={(el) => {
+                    console.log(el);
                    }}
                   >
                     <code>{part['PID']}</code><br/>
@@ -82,7 +81,7 @@ export default function Home() {
                   height={'auto'}
                   style={{
                     maxWidth:'70%',
-                    marginTop: '-20px',
+                    marginTop: '-50px',
                   }}
               />
           </div>
