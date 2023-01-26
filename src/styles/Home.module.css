@@ -3,28 +3,35 @@
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  padding: 2rem;
   min-height: 90vh;
-  overflow: -moz-hidden-unscrollable;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 .navbar {
   flex: 1;
   height: 100vh;
-  box-shadow: 1px 1px 7px rgba(60, 60, 60, 0.15);
-  padding: 2rem;
-  margin: 1rem;
+  justify-content: flex-start;
+  margin: 0;
 }
 
 .appbody {
   flex: 4;
   display: flex;
   flex-direction: column;
-  background-color: #636970;
+  background-color: #04080F;
   padding: 2rem;
   height: 90vh;
   border-radius: 5px;
   backdrop-filter: blur(5px);
+}
+
+.partList {
+  display: flex;
+  flex-direction: column;
+  height: 75vh;
+  overflow: scroll;
 }
 
 .code {
@@ -33,29 +40,16 @@
 }
 
 .card {
-  padding: 1rem 1.2rem;
-  border-radius: var(--border-radius);
-  background: rgba(var(--card-rgb), 0);
-  border: 1px solid rgba(var(--card-border-rgb), 0);
-  transition: background 200ms, border 200ms;
+  padding: 1rem;
+  flex: 1;
+  transition: 0.5s;
+  overflow: visible;
+  justify-content: center;
 }
 
-.card span {
-  display: inline-block;
-  transition: transform 200ms;
-}
-
-.card h2 {
-  font-weight: 600;
-  margin-bottom: 0.7rem;
-}
-
-.card p {
-  margin: 0;
-  opacity: 0.6;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  max-width: 30ch;
+.card:hover {
+  box-shadow: 0 0 8px 0 #ff0019ad;
+  background-color: #ff0019e8;;
 }
 
 .title {

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import Head from 'next/head'
+import { useState, useEffect } from 'react';
+import Head from 'next/head';
 import styles from '@/styles/Home.module.css'
 import getData from './api/databaseFetch';
 import { stdout } from 'process';
@@ -8,16 +8,14 @@ import { stdout } from 'process';
 export default function Home() {
 
   // Data State
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(false);
-  const [partsList, setPartsList] = useState(<ul></ul>)
 
   // Data Fetching
   useEffect(() => {
     setLoading(true);
     getData().then((res) => {     
       setData(res);
-      console.log(res);
     }).finally(() => setLoading(false));
   }, []);
 
@@ -32,15 +30,61 @@ export default function Home() {
       <main className={styles.main}>
         {/* Navigation Section */}
         <div className={styles.navbar}>
-          <div className={styles.title}>
-            Quality Monitor
+          <div style={{
+            padding: '1rem',
+            backgroundColor: '#B92736'
+          }}>
+              <div className={styles.title}>
+                Quality Monitor
+              </div>
+              <div className={styles.subtitle}>
+                Dashboard
+              </div>
           </div>
-          <div className={styles.subtitle}>
-            Dashboard
+          <div style={{
+            padding: '1rem',
+            backgroundColor: '#871D27'
+          }}>
+              <code>Scanned Parts</code>
           </div>
-          {/* Insert Parts here */}
-          <div>
-              {partsList}
+          <div className={styles.partList}>
+              {
+                data.map((part) => (
+                  <div 
+                   key={part['PID']} className={styles.card}
+                   onClick={() => {
+
+                   }}
+                  >
+                    <code>{part['PID']}</code><br/>
+                    <code style={{
+                      fontSize: 10
+                    }}>Cracks : {Object(part['cracks']).length}</code>
+                  </div>
+                 )
+                )
+              }
+          </div>
+          <div style={{
+            backgroundImage: 'linear-gradient(#0D1A30, #040910)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
+            padding: '1rem',
+            margin: 0,
+          }}>
+              <div className={styles.subtitle}>
+                Powered by
+              </div>
+              <img
+                  src={'/images/logo.png'}
+                  alt='logo'
+                  height={'auto'}
+                  style={{
+                    maxWidth:'70%',
+                    marginTop: '-20px',
+                  }}
+              />
           </div>
         </div>
         <div className={styles.appbody}>
