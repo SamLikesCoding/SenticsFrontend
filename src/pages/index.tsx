@@ -1,21 +1,22 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
+import Image from 'next/image';
 import styles from '@/styles/Home.module.css'
 import getData from './api/databaseFetch';
-
+import { BodyPart } from './models/part';
+import GlassCard from './components/GlassCard';
 
 export default function Home() {
-
   // Data State
-  const [data, setData] = useState([]);
-  const [isLoading, setLoading] = useState(false);
+  let [data, setData] = useState([]);
+  let [dashToggle, setDashToggle] = useState(true);
+  let [bodyPart, setBodyPart] = useState<BodyPart | null>(null);
 
   // Data Fetching
   useEffect(() => {
-    setLoading(true);
-    getData().then((res) => {     
+    getData().then((res:any) => {     
       setData(res);
-    }).finally(() => setLoading(false));
+    });
   }, []);
 
   return (
@@ -40,54 +41,118 @@ export default function Home() {
                 Dashboard
               </div>
           </div>
-          <div style={{
-            padding: '1rem',
-            backgroundColor: '#871D27'
-          }}>
-              <code>Scanned Parts</code>
-          </div>
-          <div className={styles.partList}>
-              {
-                data.map((part) => (
-                  <div 
-                   key={part['PID']} className={styles.card}
-                   onClick={(el) => {
-                    console.log(el);
-                   }}
-                  >
-                    <code>{part['PID']}</code><br/>
-                    <code style={{
-                      fontSize: 10
-                    }}>Cracks : {Object(part['cracks']).length}</code>
-                  </div>
-                 )
-                )
-              }
-          </div>
-          <div style={{
-            backgroundImage: 'linear-gradient(#0D1A30, #040910)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-end',
-            padding: '1rem',
-            margin: 0,
-          }}>
-              <div className={styles.subtitle}>
-                Powered by
+          {
+            dashToggle && (
+              <React.Fragment>
+                <div style={{
+                  padding: '1rem',
+                  backgroundColor: '#871D27'
+                }}>
+                    <code>Scanned Parts</code>
+                </div>
+                <div className={styles.partList}>
+                    {
+                      data.map((bodyPartData) => (
+                         <div 
+                            id={bodyPartData['PID']}
+                            key={bodyPartData['PID']} className={styles.card}
+                            onClick={(_:any) => {
+                              console.log(bodyPartData);
+
+                              // Creating Modal Object
+                              const bpart = new BodyPart();
+                              bpart.createFromObject(bodyPartData);
+
+                              setBodyPart(bpart);
+                              setDashToggle(false);
+                         }}>
+                            <code>{bodyPartData['PID']}</code><br/>
+                            <code style={{
+                              fontSize: 10
+                            }}>Cracks : {Object(bodyPartData['cracks']).length}</code>
+                         </div>
+                        )
+                      )
+                    }
+                </div>
+              </React.Fragment>
+            ) || 
+            <div className={styles.partInfo}>
+               <div style={{
+                  padding: '1rem',
+                  backgroundColor: '#871D27'
+                }}>
+                  <code>
+                    Part : {bodyPart?.pid}
+                  </code>
               </div>
-              <img
-                  src={'/images/logo.png'}
-                  alt='logo'
-                  height={'auto'}
-                  style={{
-                    maxWidth:'70%',
-                    marginTop: '-50px',
-                  }}
+              <div className={styles.partData}>
+                 <code>
+                      No of cracks : {bodyPart?.cracks.length} <br/>
+                      Date scanned : {bodyPart?.datestamp} <br/>
+                 </code>
+              </div>
+              <div className={styles.card}
+                   onClick={() => {
+                   setBodyPart(null);
+                   setDashToggle(true);
+              }}>
+                <code>Back</code>
+              </div>
+            </div>
+          }
+          <div className={styles.logoDiv}>
+              <code>
+                Powered by
+              </code>
+              <Image 
+                src={"/images/logo.png"}
+                alt="logo"
+                height={24.47}
+                width={120}
+                style={{ paddingLeft: "12px" }}
               />
           </div>
         </div>
         <div className={styles.appbody}>
-          
+          {
+            (bodyPart) && (
+              <div className={styles.crackGrid}>
+                {
+                  bodyPart.cracks.map((crk) => {
+                    let crackData = Object(crk);
+                    console.log(crackData['image'].length);
+                    return <div className={styles.crackGridItem}>
+                      {
+                        GlassCard(
+                          <Image 
+                            src={crackData['image'][0]}
+                            alt={crackData['CRID']}
+                            width={180}
+                            height={150}
+                            style={{ borderRadius: 8 }}
+                          />
+                        )
+                      }
+                    </div>
+                  })
+                }
+              </div>
+            ) || (
+              <div>
+                 {GlassCard(
+                 <div className={styles.splash}>
+                    <div className={styles.bigtitle}>
+                        Quality Check Dashboard
+                    </div>
+                    <br/><br/>
+                    <div className={styles.subtitle}>
+                      The scanned parts are available in the navigation bar. Select the part for the scan report and further details.
+                    </div>
+                 </div>)}
+              </div>
+            )
+          }
         </div>
       </main>
     </>
