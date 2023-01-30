@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import Head from 'next/head';
-import Image from 'next/image';
+import GlassCard from './components/GlassCard';
 import styles from '@/styles/Home.module.css'
+import { CrackObject } from "./models/crack";
 import getData from './api/databaseFetch';
 import { BodyPart } from './models/part';
-import GlassCard from './components/GlassCard';
+import Image from 'next/image';
+import Head from 'next/head';
+import { motion } from 'framer-motion';
 
 export default function Home() {
+
   // Data State
   let [data, setData] = useState([]);
   let [dashToggle, setDashToggle] = useState(true);
   let [bodyPart, setBodyPart] = useState<BodyPart | null>(null);
+  let [crackObject, setCrackObject] = useState<CrackObject | null>(null)
 
   // Data Fetching
   useEffect(() => {
@@ -63,7 +67,8 @@ export default function Home() {
                               // Creating Modal Object
                               const bpart = new BodyPart();
                               bpart.createFromObject(bodyPartData);
-
+                              
+                              // Toggles
                               setBodyPart(bpart);
                               setDashToggle(false);
                          }}>
@@ -109,61 +114,90 @@ export default function Home() {
               <Image 
                 src={"/images/logo.png"}
                 alt="logo"
-                height={24.47}
-                width={120}
-                style={{ paddingLeft: "12px" }}
+                fill
+                className={styles.image}
               />
           </div>
         </div>
+        {/*  App Body */}
         <div className={styles.appbody}>
           {
             (bodyPart) && (
              <React.Fragment>
-                <div className={styles.bigtitle}>Cracks Identified</div><br/>
-                <div className={styles.crackGrid}>
-                  {
-                    bodyPart.cracks.length != 0 && bodyPart.cracks.map((crk) => {
-                      let crackData = Object(crk);
-                      return <div id={crackData['CRID']} className={styles.crackGridItem}>
-                        {
-                          <React.Fragment>
-                            <Image 
-                              src={crackData['image'][0]}
-                              alt={crackData['CRID']}
-                              width={260}
-                              height={240}
-                              style={{ borderRadius: 8 }}
-                            />
-                            <div className={styles.overlay}>
-                              <code>
-                                Crack Reference : <br/>
-                                { crackData['CRID'] }
-                              </code>
-                              <code>
-                                Click to continue
-                              </code>
-                            </div>
-                          </React.Fragment>
-                        }
-                      </div>
-                    }) || GlassCard(
-                      <div style={{ 
-                        height: 300, width: 400, 
-                        alignItems: "flex-start", 
-                        justifyContent: "center",
-                        display: "flex",
-                        flexDirection: "column",
-                      }}>
-                        <div className={styles.title}>
-                          No cracks found in scan
+                {
+                  (crackObject) && (
+                    <motion.div
+                      animate={{ x: 100 }}
+                      transition={{ type: "spring", stiffness: 100 }}
+                    >
+                      {GlassCard(
+                        <div className={styles.objectInfo}>
+                           <div className={styles.card} onClick={() => {
+                                setCrackObject(null);
+                           }}>
+                              Go Back
+                           </div>
                         </div>
-                        <div className={styles.subtitle}>
-                          The part seems to have no cracks
-                        </div>
-                      </div>
-                    )
-                  }
-                </div>
+                      )}
+                    </motion.div>
+                  ) || (
+                    <React.Fragment>
+                        <div className={styles.bigtitle}>Cracks Scanned from {bodyPart.pid}</div><br/>
+                        <ul className={styles.crackGrid}>
+                          {
+                            bodyPart.cracks.length != 0 && bodyPart.cracks.map((crk) => {
+                              let crackData = Object(crk);
+                              return <li 
+                                id={crackData['CRID']} 
+                                className={styles.crackGridItem}
+                                onClick={() => {
+                                    let crackObj = new CrackObject();
+                                    crackObj.createFromObject(crackData);
+                                    setCrackObject(crackObj);
+                                }}
+                              >
+                                {
+                                  <React.Fragment>
+                                    <Image 
+                                      src={crackData['image'][0]}
+                                      alt={crackData['CRID']}
+                                      width={260}
+                                      height={240}
+                                      style={{ borderRadius: 16 }}
+                                    />
+                                    <div className={styles.overlay}>
+                                      <code>
+                                        Crack Reference : <br/>
+                                        { crackData['CRID'] }
+                                      </code>
+                                      <code>
+                                        Click to continue
+                                      </code>
+                                    </div>
+                                  </React.Fragment>
+                                }
+                              </li>
+                            }) || GlassCard(
+                              <div style={{ 
+                                height: 300, width: 400, 
+                                alignItems: "flex-start", 
+                                justifyContent: "center",
+                                display: "flex",
+                                flexDirection: "column",
+                              }}>
+                                <div className={styles.title}>
+                                  No cracks found in scan
+                                </div>
+                                <div className={styles.subtitle}>
+                                  The part seems to have no cracks
+                                </div>
+                              </div>
+                            )
+                          }
+                        </ul>
+                    </React.Fragment>
+                  )
+                }
              </React.Fragment>
             ) || (
               <div>

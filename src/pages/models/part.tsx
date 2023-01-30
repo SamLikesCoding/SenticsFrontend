@@ -1,10 +1,8 @@
-// Data Models here
-
-import { threadId } from "worker_threads";
-
+// Data Model : BodyPart Data
 interface BodyPartInterface {
     pid: String,
     _id: String,
+    datestamp: String,
     cracks: Array<any>,
     qcheck: Number
 }

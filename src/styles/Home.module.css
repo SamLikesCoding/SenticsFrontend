@@ -12,6 +12,7 @@
 .navbar {
   flex: 1;
   height: 100vh;
+  object-fit: contain;
   flex-direction: column;
   justify-content: space-evenly;
   overflow: hidden;
@@ -22,7 +23,7 @@
   flex: 4;
   display: flex;
   flex-direction: column;
-  padding: 2rem;
+  padding: 18px;
   height: 100vh;
   align-items: flex-start;
   justify-content: center;
@@ -56,11 +57,18 @@
   background-color: white;
   color: black;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   overflow: visible;
   padding: 1rem; 
   justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.crackInfo {
+  justify-content: center;
   align-items: center;
+  display: flex;
+  margin: 0;
 }
 
 .splash {
@@ -74,23 +82,20 @@
 }
 
 .crackGrid {
-  padding: 2rem;
-  display: inline-grid;
-  justify-self: self-start;
-  grid-template-columns: auto auto auto auto;
-  overflow: scroll;
-  height: 80vh;
+  padding: 1rem;
+  display: block;
+  overflow: auto;
+
 }
 
 .crackGridItem {
-  padding: 1rem;
-  z-index: 1;
+  padding: 2rem;
   position: relative;
   overflow: hidden;
+  display: inline-block;
 }
 
 .crackGridItem:hover .overlay {
-  z-index: 6;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -98,6 +103,7 @@
   padding: 1rem;
   background-color:rgb(240, 54, 54);
   opacity: 1;
+  border-radius: 25px 80px 30px 60px;
 }
 
 .overlay {
@@ -109,12 +115,21 @@
   height: 100%;
   width: 100%;
   opacity: 0;
+  border-radius: 0;
   transition: .5s ease;
 }
 
 .code {
   font-weight: 700;
   font-family: var(--font-mono);
+}
+
+.image {
+  object-fit: contain;
+  width: 30% !important;
+  position: relative !important;
+  height: unset !important;
+  padding: 3px;
 }
 
 .card {
