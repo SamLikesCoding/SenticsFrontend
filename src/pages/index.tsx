@@ -19,6 +19,7 @@ export default function Home() {
     });
   }, []);
 
+  // App rendering
   return (
     <>
       <Head>
@@ -117,27 +118,53 @@ export default function Home() {
         <div className={styles.appbody}>
           {
             (bodyPart) && (
-              <div className={styles.crackGrid}>
-                {
-                  bodyPart.cracks.map((crk) => {
-                    let crackData = Object(crk);
-                    console.log(crackData['image'].length);
-                    return <div className={styles.crackGridItem}>
-                      {
-                        GlassCard(
-                          <Image 
-                            src={crackData['image'][0]}
-                            alt={crackData['CRID']}
-                            width={180}
-                            height={150}
-                            style={{ borderRadius: 8 }}
-                          />
-                        )
-                      }
-                    </div>
-                  })
-                }
-              </div>
+             <React.Fragment>
+                <div className={styles.bigtitle}>Cracks Identified</div><br/>
+                <div className={styles.crackGrid}>
+                  {
+                    bodyPart.cracks.length != 0 && bodyPart.cracks.map((crk) => {
+                      let crackData = Object(crk);
+                      return <div id={crackData['CRID']} className={styles.crackGridItem}>
+                        {
+                          <React.Fragment>
+                            <Image 
+                              src={crackData['image'][0]}
+                              alt={crackData['CRID']}
+                              width={260}
+                              height={240}
+                              style={{ borderRadius: 8 }}
+                            />
+                            <div className={styles.overlay}>
+                              <code>
+                                Crack Reference : <br/>
+                                { crackData['CRID'] }
+                              </code>
+                              <code>
+                                Click to continue
+                              </code>
+                            </div>
+                          </React.Fragment>
+                        }
+                      </div>
+                    }) || GlassCard(
+                      <div style={{ 
+                        height: 300, width: 400, 
+                        alignItems: "flex-start", 
+                        justifyContent: "center",
+                        display: "flex",
+                        flexDirection: "column",
+                      }}>
+                        <div className={styles.title}>
+                          No cracks found in scan
+                        </div>
+                        <div className={styles.subtitle}>
+                          The part seems to have no cracks
+                        </div>
+                      </div>
+                    )
+                  }
+                </div>
+             </React.Fragment>
             ) || (
               <div>
                  {GlassCard(
