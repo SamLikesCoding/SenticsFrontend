@@ -1,9 +1,9 @@
 .main {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-items: center;
   align-items: center;
-  min-height: 90vh;
+  min-height: 80vh;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -20,13 +20,13 @@
 }
 
 .appbody {
-  flex: 4;
-  display: flex;
-  flex-direction: column;
-  padding: 18px;
-  height: 100vh;
-  align-items: flex-start;
+  flex: 3;
+  display: block;
+  align-items: center;
   justify-content: center;
+  padding: 1rem;
+  object-fit: contain;
+  overflow: hidden;
 }
 
 .partList {
@@ -64,11 +64,18 @@
   align-items: flex-start;
 }
 
-.crackInfo {
-  justify-content: center;
-  align-items: center;
-  display: flex;
+.objectInfo {
+  display: inline-block;
+  padding: 0;
   margin: 0;
+}
+
+.crackInfo {
+  width: 70vw;
+  display: inline-block;
+  padding: 1rem;
+  margin: 0;
+  background-color: rgb(240, 54, 54);
 }
 
 .splash {
@@ -85,7 +92,6 @@
   padding: 1rem;
   display: block;
   overflow: auto;
-
 }
 
 .crackGridItem {

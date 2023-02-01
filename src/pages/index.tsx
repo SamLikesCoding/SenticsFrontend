@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import GlassCard from './components/GlassCard';
 import styles from '@/styles/Home.module.css'
+import ImageViewer from "./components/ImageViewer";
 import { CrackObject } from "./models/crack";
 import getData from './api/databaseFetch';
 import { BodyPart } from './models/part';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Head from 'next/head';
-import { motion } from 'framer-motion';
+
 
 export default function Home() {
 
   // Data State
   let [data, setData] = useState([]);
   let [dashToggle, setDashToggle] = useState(true);
+  let [backTrigger, setBackTriggerLevel] = useState(0);
   let [bodyPart, setBodyPart] = useState<BodyPart | null>(null);
   let [crackObject, setCrackObject] = useState<CrackObject | null>(null)
 
@@ -63,7 +66,7 @@ export default function Home() {
                             key={bodyPartData['PID']} className={styles.card}
                             onClick={(_:any) => {
                               console.log(bodyPartData);
-
+                              setBackTriggerLevel(1);
                               // Creating Modal Object
                               const bpart = new BodyPart();
                               bpart.createFromObject(bodyPartData);
@@ -100,7 +103,12 @@ export default function Home() {
               </div>
               <div className={styles.card}
                    onClick={() => {
-                   setBodyPart(null);
+                   if (backTrigger == 1) {
+                    setBodyPart(null);
+                   }
+                   else if (backTrigger == 2) {
+                    setCrackObject(null);
+                   }
                    setDashToggle(true);
               }}>
                 <code>Back</code>
@@ -130,15 +138,16 @@ export default function Home() {
                       animate={{ x: 100 }}
                       transition={{ type: "spring", stiffness: 100 }}
                     >
-                      {GlassCard(
-                        <div className={styles.objectInfo}>
-                           <div className={styles.card} onClick={() => {
-                                setCrackObject(null);
-                           }}>
-                              Go Back
-                           </div>
-                        </div>
-                      )}
+                      <div className={styles.objectInfo}>
+                         <ImageViewer imgs={crackObject.images}/>
+                         <div className={styles.crackInfo}>
+                              <div className={styles.title} style={{ paddingBottom: "1rem" }}>Damage Crack Information</div>
+                              <code>Crack ID : {crackObject.crid}</code> <br/>
+                              <code>Crack Length : {crackObject.crackLength + " " + crackObject.crackLengthDim}</code><br/>
+                              <code>Crack Depth : {crackObject.crackDepth}</code><br/>
+                              <code>Date Recorded : {bodyPart.datestamp}</code>
+                         </div>
+                      </div>
                     </motion.div>
                   ) || (
                     <React.Fragment>
@@ -153,6 +162,7 @@ export default function Home() {
                                 onClick={() => {
                                     let crackObj = new CrackObject();
                                     crackObj.createFromObject(crackData);
+                                    setBackTriggerLevel(2);
                                     setCrackObject(crackObj);
                                 }}
                               >
