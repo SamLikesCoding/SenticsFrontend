@@ -104,12 +104,14 @@ export default function Home() {
               <div className={styles.card}
                    onClick={() => {
                    if (backTrigger == 1) {
+                    setBackTriggerLevel(0);
                     setBodyPart(null);
+                    setDashToggle(true);
                    }
                    else if (backTrigger == 2) {
+                    setBackTriggerLevel(1);
                     setCrackObject(null);
                    }
-                   setDashToggle(true);
               }}>
                 <code>Back</code>
               </div>
