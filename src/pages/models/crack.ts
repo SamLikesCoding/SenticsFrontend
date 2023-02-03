@@ -10,7 +10,7 @@ interface CrackDataInterface {
     images: String[]
 }
 
-export class CrackObject implements CrackDataInterface {
+export default class CrackObject implements CrackDataInterface {
     crid!: String;
     crackLength!: Number;
     crackLengthDim!: String;

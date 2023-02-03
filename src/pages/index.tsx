@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import GlassCard from './components/GlassCard';
 import styles from '@/styles/Home.module.css'
 import ImageViewer from "./components/ImageViewer";
-import { CrackObject } from "./models/crack";
+import CrackObject from "./models/crack";
 import getData from './api/databaseFetch';
-import { BodyPart } from './models/part';
+import BodyPart from './models/part';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Head from 'next/head';
@@ -133,26 +133,24 @@ export default function Home() {
         <div className={styles.appbody}>
           {
             (bodyPart) && (
-             <React.Fragment>
+             <Fragment>
                 {
                   (crackObject) && (
-                    <motion.div
-                      animate={{ x: 100 }}
-                      transition={{ type: "spring", stiffness: 100 }}
-                    >
-                      <div className={styles.objectInfo}>
+                   
+                       <div className={styles.objectInfo}>
                          <ImageViewer imgs={crackObject.images}/>
                          <div className={styles.crackInfo}>
                               <div className={styles.title} style={{ paddingBottom: "1rem" }}>Damage Crack Information</div>
                               <code>Crack ID : {crackObject.crid}</code> <br/>
                               <code>Crack Length : {crackObject.crackLength + " " + crackObject.crackLengthDim}</code><br/>
-                              <code>Crack Depth : {crackObject.crackDepth}</code><br/>
-                              <code>Date Recorded : {bodyPart.datestamp}</code>
+                              <code>Crack Depth : {crackObject.crackDepth.toString()}</code><br/>
+                              <code>Date Recorded : {bodyPart.datestamp}</code><br/> 
+                              <code>Number of Images : {crackObject.images.length}</code>
                          </div>
                       </div>
-                    </motion.div>
+                           
                   ) || (
-                    <React.Fragment>
+                    <Fragment>
                         <div className={styles.bigtitle}>Cracks Scanned from {bodyPart.pid}</div><br/>
                         <ul className={styles.crackGrid}>
                           {
@@ -207,10 +205,10 @@ export default function Home() {
                             )
                           }
                         </ul>
-                    </React.Fragment>
+                    </Fragment>
                   )
                 }
-             </React.Fragment>
+             </Fragment>
             ) || (
               <div>
                  {GlassCard(

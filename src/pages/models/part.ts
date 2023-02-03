@@ -7,7 +7,7 @@ interface BodyPartInterface {
     qcheck: Number
 }
 
-export class BodyPart implements BodyPartInterface{
+export default class BodyPart implements BodyPartInterface{
     pid!: String;
     _id!: String;
     cracks!: any[];

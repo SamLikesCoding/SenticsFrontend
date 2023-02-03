@@ -1,6 +1,5 @@
 import styles from "./ImageViewer.module.css";
 import React, { useState } from 'react';
-import Image from "next/image";
 import { ArrowForward, ArrowBack } from '@mui/icons-material';
 
 export default function ImageViewer({ imgs }) {
@@ -15,18 +14,20 @@ export default function ImageViewer({ imgs }) {
 
     // The Widget
     return (
-     <section className={styles.slider}>
-        <ArrowBack className={styles.leftArrow} onClick={prev}/>
-        <ArrowForward className={styles.rightArrow} onClick={next} />
-        {
-            imgs.map((imageURL, idx) => {
-                console.log(imageURL);
-                return (<div key={idx} className={idx == currentImage? styles.slideActive : styles.slide}>
-                    {idx == currentImage && (<img src={imageURL} className={styles.image}/>)}
-                </div>);
-            })
-        }
-     </section>   
+      <React.Fragment>
+        <div className={styles.slider}>
+            <ArrowBack className={styles.leftArrow} onClick={prev}/>
+            <ArrowForward className={styles.rightArrow} onClick={next} />
+            {
+                imgs.map((imageURL, idx) => {
+                    console.log(imageURL);
+                    return (<div key={idx} className={idx == currentImage? styles.slideActive : styles.slide}>
+                        {idx == currentImage && (<img src={imageURL} className={styles.image}/>)}
+                    </div>);
+                })
+            }
+        </div> 
+      </React.Fragment>  
     )
 }
 
