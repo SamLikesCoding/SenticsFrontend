@@ -1,3 +1,6 @@
+# Sentics Dashboard 
+
+The following project is an protortpe for Quality Monitor Dashboard. The project is biult under Next.js
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -10,6 +13,38 @@ npm run dev
 yarn dev
 # or
 pnpm dev
+```
+
+# Developer note 
+This project uses the following dependencies :
+```json
+{
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.6",
+    "@next/font": "13.1.4",
+    "@types/node": "18.11.18",
+    "@types/react": "18.0.27",
+    "@types/react-dom": "18.0.10",
+    "framer-motion": "^8.5.4",
+    "material-ui": "^0.20.2",
+    "next": "13.1.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "4.9.4"
+  }
+```
+
+To install the dependencies, run
+
+```bash
+npm install
+```
+
+In case if there's any dependency fails, use the following flag to fix it
+```bash
+npm install --legacy-peer-deps
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
